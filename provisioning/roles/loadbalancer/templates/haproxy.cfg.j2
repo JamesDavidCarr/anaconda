@@ -1,0 +1,29 @@
+global
+    # no daemon because we run this under daemontools
+    maxconn 256
+
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 10000ms
+    timeout server 10000ms
+
+
+frontend fe1
+    bind *:80
+    default_backend be1
+
+
+backend be1
+    balance roundrobin
+    option httpchk GET / HTTP/1.1\r\nHost:\ {{ ansible_eth0.ipv4.address }}
+    http-check expect status 200
+    {% for i in range(backend_count) %}
+        server s{{ i }} 0.0.0.0:{{ initial_nginx_port + i}} check
+    {% endfor %}
+
+
+listen admin
+    bind *:8080
+    stats enable

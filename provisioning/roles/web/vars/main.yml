@@ -1,0 +1,8 @@
+---
+
+initial_application_port: 8081
+initial_nginx_port: 9000
+backend_count: 1
+daemontools_service_dir: /etc/service
+application_user: anaconda
+home_dir: "/home/{{ application_user }}"

@@ -1,0 +1,16 @@
+---
+
+- name: 'Update apt'
+  apt: update_cache=yes cache_valid_time=86400
+
+- name: 'Install daemontools'
+  apt: name=daemontools state=present
+
+- name: 'Create daemontools directory'
+  file: path=/etc/service/ state=directory
+
+- name: 'Add daemontools svscanboot init file'
+  copy: src=daemontools.conf dest=/etc/init/daemontools.conf
+
+- name: 'Start daemontools service'
+  service: name=daemontools state=restarted

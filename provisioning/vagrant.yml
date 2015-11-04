@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  user: vagrant
+  sudo: yes
+  sudo_user: root
+  roles:
+    - common
+    - loadbalancer
+    - web

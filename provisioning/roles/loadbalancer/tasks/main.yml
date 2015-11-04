@@ -1,0 +1,15 @@
+---
+
+- name: 'Install haproxy'
+  apt: name=haproxy state=present
+
+- name: 'Save haproxy config file'
+  template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg
+
+# Daemontools stuff
+
+- name: 'Create haproxy daemontols directory'
+  file: path=/etc/service/haproxy state=directory
+
+- name: 'Save haproxy daemontools config'
+  copy: src=daemontools.haproxy.run dest=/etc/service/haproxy/run mode=755

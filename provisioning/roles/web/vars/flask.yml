@@ -1,0 +1,5 @@
+---
+
+flask_dir: "{{ home_dir }}/flask"
+flask_venv: "{{ flask_dir}}/flask_venv"
+flask_port: 8081

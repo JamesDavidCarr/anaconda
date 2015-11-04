@@ -1,0 +1,8 @@
+[webservers]
+web1.jdcarr.co
+
+[dbservers]
+web1.jdcarr.co
+
+[lbservers]
+lb1.jdcarr.co
