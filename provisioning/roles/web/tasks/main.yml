@@ -13,20 +13,22 @@
   file: path="{{ daemontools_service_dir }}/{{ item }}" state=directory
   with_items:
     - flask
+    - nginx_flask
 
 # Web servers
 
 - name: 'Save nginx config'
-  template: src=nginx/nginx_anaconda.conf.j2 dest="/etc/nginx/nginx_anaconda_{{ item }}.conf" force=yes
-  with_sequence: start=0 end={{ backend_count }}
+  template: src=nginx/nginx_anaconda.conf.j2 dest="/etc/nginx/nginx_{{ item }}.conf" force=yes
+  with_items: "{{ backends }}"
 
-- name: 'Create nginx daemontols directories'
-  file: path="{{ daemontools_service_dir }}/nginx_{{ item }}" state=directory
-  with_sequence: start=0 end={{ backend_count }}
 
-- name: 'Save nginx daemontools config'
-  template: src=nginx/daemontools.nginx.run.j2 dest="{{ daemontools_service_dir }}/nginx_{{ item }}/run" mode=755 force=yes
-  with_sequence: start=0 end={{ backend_count }}
+# This is a pain to use templates with so for now just do each backend and later
+# on figure out a way to template them.
+
+- name: 'Save flask nginx daemontools config'
+  template: src=../../common/templates/daemontools.j2 dest="{{ daemontools_service_dir }}/nginx_flask/run" mode=755 force=yes
+  with_items:
+    - { service_name: 'nginx', service_command: '/usr/sbin/nginx -c /etc/nginx/nginx_flask.conf'}
 
 
 # Application servers
@@ -48,4 +50,6 @@
   template: src=flask/anaconda_flask.py.j2 dest="{{ flask_dir }}/anaconda_flask.py" mode=755 force=yes
 
 - name: 'Add Flask daemontools service'
-  template: src=flask/daemontools.flask.run.j2 dest="{{ daemontools_service_dir }}/flask/run" mode=755 force=yes
+  template: src=../../common/templates/daemontools.j2 dest="{{ daemontools_service_dir }}/flask/run" mode=755 force=yes
+  with_items:
+    - { service_name: 'Flask', service_command: '. {{ flask_venv }}/bin/activate && python {{ flask_dir }}/anaconda_flask.py' }

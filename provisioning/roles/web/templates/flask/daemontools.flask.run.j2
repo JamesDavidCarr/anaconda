@@ -1,7 +1,0 @@
-#!/bin/sh
-
-echo "Sourcing Flask virtualenv"
-. {{ flask_venv }}/bin/activate
-
-echo "Starting Flask"
-exec python {{ flask_dir }}/anaconda_flask.py

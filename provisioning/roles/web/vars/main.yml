@@ -6,3 +6,6 @@ backend_count: 1
 daemontools_service_dir: /etc/service
 application_user: anaconda
 home_dir: "/home/{{ application_user }}"
+
+backends:
+  - flask

@@ -1,4 +1,0 @@
-#!/bin/sh
-
-echo "Starting haproxy"
-exec /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg

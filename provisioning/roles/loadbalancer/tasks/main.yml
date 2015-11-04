@@ -12,4 +12,6 @@
   file: path=/etc/service/haproxy state=directory
 
 - name: 'Save haproxy daemontools config'
-  copy: src=daemontools.haproxy.run dest=/etc/service/haproxy/run mode=755
+  template: src=../../common/templates/daemontools.j2 dest=/etc/service/haproxy/run mode=755
+  with_items:
+    - { service_name: 'Haproxy', service_command: '/usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg' }
