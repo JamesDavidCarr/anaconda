@@ -19,7 +19,7 @@ backend be1
     balance roundrobin
     option httpchk GET / HTTP/1.1\r\nHost:\ {{ ansible_eth0.ipv4.address }}
     http-check expect status 200
-    {% for i in range(backend_count) %}
+    {% for i in range(backend_count|int) %}
         server s{{ i }} 0.0.0.0:{{ initial_nginx_port + i}} check
     {% endfor %}
 

@@ -1,0 +1,3 @@
+---
+
+nodejs_dir: "{{ home_dir }}/nodejs"

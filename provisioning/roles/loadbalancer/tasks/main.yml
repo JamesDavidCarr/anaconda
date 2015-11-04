@@ -3,6 +3,9 @@
 - name: 'Install haproxy'
   apt: name=haproxy state=present
 
+- name: 'debug'
+  debug: msg="backend_count is {{ backend_count }}"
+
 - name: 'Save haproxy config file'
   template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg
 

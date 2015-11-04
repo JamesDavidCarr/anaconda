@@ -1,0 +1,44 @@
+---
+
+- include_vars: nodejs.yml
+
+- name: 'Create daemontools directories'
+  file: path="{{ daemontools_service_dir }}/{{ item }}" state=directory
+  with_items:
+    - nodejs
+    - nginx_nodejs
+
+- name: 'Save nodejs nginx daemontools config'
+  template: src=../../common/templates/daemontools.j2 dest="{{ daemontools_service_dir }}/nginx_nodejs/run" mode=755 force=yes
+  with_items:
+    - { service_name: 'nginx', service_command: '/usr/sbin/nginx -c /etc/nginx/nginx_nodejs.conf'}
+
+
+
+- name: 'Add nodejs key to keyring'
+  shell: "curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -"
+
+- name: 'Create nodejs apt source file'
+  shell: "echo 'deb https://deb.nodesource.com/node_5.x {{ ansible_distribution_release }} main' > /etc/apt/sources.list.d/nodesource.list"
+
+- name: 'Append to nodejs apt source file'
+  shell: "echo 'deb-src https://deb.nodesource.com/node_5.x {{ ansible_distribution_release }} main' >> /etc/apt/sources.list.d/nodesource.list"
+
+- name: 'Update apt'
+  apt: update_cache=yes
+
+- name: 'Install nodejs'
+  apt: name=nodejs state=latest
+
+
+
+- name: 'Create nodejs directory'
+  file: path="{{ nodejs_dir }}" state=directory
+
+- name: "Copy nodejs file"
+  template: src=nodejs/anaconda_nodejs.js.j2 dest="{{ nodejs_dir }}/anaconda_nodejs.js"
+
+- name: 'Add nodejs daemontools service'
+  template: src=../../common/templates/daemontools.j2 dest="{{ daemontools_service_dir }}/nodejs/run" mode=755 force=yes
+  with_items:
+    - { service_name: 'nodejs', service_command: 'nodejs {{ nodejs_dir }}/anaconda_nodejs.js' }

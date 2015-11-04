@@ -2,10 +2,22 @@
 
 initial_application_port: 8081
 initial_nginx_port: 9000
-backend_count: 1
 daemontools_service_dir: /etc/service
 application_user: anaconda
 home_dir: "/home/{{ application_user }}"
 
 backends:
   - flask
+  - nodejs
+
+backend_count: "{{ backends|length }}"
+
+# Ideally I'd love something like this but I don't know how to use
+# all of jinja2 inside of yaml config.
+
+# "{% for backend in backends %}
+#   {{ backend }}_port: {{ initial_application_port }} + {{ loop.counter }}
+# {% endfor %}"
+
+flask_port: "{{ initial_application_port + 0 }}"
+nodejs_port: "{{ initial_application_port + 1 }}"

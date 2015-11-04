@@ -1,7 +1,7 @@
 ---
 
 - name: 'Update apt'
-  apt: update_cache=yes cache_valid_time=86400
+  apt: update_cache=yes
 
 - name: 'Install daemontools'
   apt: name=daemontools state=present

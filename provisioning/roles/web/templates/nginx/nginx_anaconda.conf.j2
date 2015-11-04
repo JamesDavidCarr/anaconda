@@ -11,9 +11,9 @@ http {
   access_log /var/log/nginx/access.log my_log_format;
   error_log /var/log/nginx/error.log info;
   server {
-    listen {{ initial_nginx_port + item|int }};
+    listen {{ initial_nginx_port + item.0|int }};
     location / {
-      proxy_pass http://127.0.0.1:{{ initial_application_port + item|int }};
+      proxy_pass http://127.0.0.1:{{ initial_application_port + item.0|int }};
     }
   }
 }
