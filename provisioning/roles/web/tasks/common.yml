@@ -1,0 +1,12 @@
+---
+
+- name: 'Create daemontools directories'
+  file: path="{{ daemontools_service_dir }}/{{ item }}" state=directory
+  with_items:
+    - "{{ backend }}"
+    - "nginx_{{ backend }}"
+
+- name: "Save {{ backend }} nginx daemontools config"
+  template: src=../../common/templates/daemontools.j2 dest="{{ daemontools_service_dir }}/nginx_{{ backend }}/run" mode=755 force=yes
+  with_items:
+    - { service_name: "nginx", service_command: "/usr/sbin/nginx -c /etc/nginx/nginx_{{ backend }}.conf"}

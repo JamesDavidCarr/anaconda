@@ -2,24 +2,14 @@
 
 - include_vars: flask.yml
 
-- name: 'Create daemontools directories'
-  file: path="{{ daemontools_service_dir }}/{{ item }}" state=directory
-  with_items:
-    - flask
-    - nginx_flask
-
-- name: 'Save flask nginx daemontools config'
-  template: src=../../common/templates/daemontools.j2 dest="{{ daemontools_service_dir }}/nginx_flask/run" mode=755 force=yes
-  with_items:
-    - { service_name: 'nginx', service_command: '/usr/sbin/nginx -c /etc/nginx/nginx_flask.conf'}
-
+- include: common.yml backend=flask
 
 
 - name: 'Create Flask directory'
   file: path="{{ flask_dir }}" state=directory
 
 - name: 'Copy requirements.txt'
-  copy: src=requirements.txt dest="{{ flask_dir }}/requirements.txt"
+  copy: src=anaconda_flask_requirements.txt dest="{{ flask_dir }}/requirements.txt"
 
 - name: 'Create virtualenv'
   pip: requirements="{{ flask_dir }}/requirements.txt" virtualenv="{{ flask_venv }}"
