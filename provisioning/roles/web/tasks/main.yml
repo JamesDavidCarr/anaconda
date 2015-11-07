@@ -19,3 +19,4 @@
 # on an include until ansible 2.
 - include: flask.yml
 - include: nodejs.yml
+- include: gunicorn.yml

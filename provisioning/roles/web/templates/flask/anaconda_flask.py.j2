@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask, Response
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello World, this is Flask!\n"
+    resp = Response("Hello World, this is Flask!\n")
+    resp.headers['Content-Type'] = 'text/plain'
+    return resp
 
 if __name__ == "__main__":
     app.run(port={{ flask_port }})

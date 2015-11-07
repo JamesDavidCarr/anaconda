@@ -1,0 +1,4 @@
+---
+
+- name: 'Install gunicorn'
+  apt: pkg=gunicorn state=latest update_cache=yes
