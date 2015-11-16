@@ -9,4 +9,4 @@
     - loadbalancer
     - web
   vars_files:
-     - vars/vagrant.yml
+    - vars/production.yml

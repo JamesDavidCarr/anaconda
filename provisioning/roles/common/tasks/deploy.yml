@@ -1,0 +1,10 @@
+---
+
+- name: 'Install git'
+  apt: pkg=git state=present
+  when: not development
+
+- name: 'Clone the git repo'
+  git: repo="{{ git_repo }}" dest="{{ deploy_dir }}" depth=1 accept_hostkey=yes
+  sudo: yes
+  when: not development

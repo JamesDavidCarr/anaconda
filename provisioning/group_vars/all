@@ -1,0 +1,2 @@
+git_repo: "https://github.com/JamesDavidCarr/anaconda-backends.git"
+deploy_dir: "/boa"
